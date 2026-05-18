@@ -1,6 +1,6 @@
 @php
     $featuredBook = $books->firstWhere('is_featured', true) ?? $books->first();
-    $bookCover = fn ($book) => $book?->cover && file_exists(public_path($book->cover))
+    $bookCover = fn($book) => $book?->cover && file_exists(public_path($book->cover))
         ? asset($book->cover)
         : asset('images/virginia.jpg');
     $homeSchema = [
@@ -22,11 +22,9 @@
     ];
 @endphp
 
-<x-layout
-    title="Virginia | Blog & Scrittura"
+<x-layout title="Virginia | Blog & Scrittura"
     description="Romanzi, racconti, eventi e appunti di scrittura di Virginia. Uno spazio editoriale intimo per lettrici, lettori e collaborazioni."
-    :schema="$homeSchema"
->
+    :schema="$homeSchema">
 
     <section class="writer-hero">
         <img src="{{ asset('images/virginia.jpg') }}" alt="Virginia scrittrice" class="writer-hero-bg-img">
@@ -35,19 +33,20 @@
 
         <div class="writer-hero-content">
             <div class="writer-kicker-row">
-                <p class="writer-eyebrow">Romanzi • Pensieri • Scrittura</p>
+                <p class="writer-eyebrow">POESIA • RIFLESSIONI • STORIE VERE</p>
             </div>
 
-            <h1>Storie che restano, parole che respirano.</h1>
+            <h1>Scrivo per chi
+                non riesce
+                a dirlo ad alta voce.</h1>
 
             <p>
-                Uno spazio personale dove racconti, romanzi e appunti di vita
-                trovano una forma intima, precisa e vicina a chi legge.
+                Racconti, pensieri e frammenti di vita trasformati in parole per chi sente troppo e parla poco.
             </p>
 
             <div class="writer-actions">
-                <a href="#blog" class="btn-writer-primary">Leggi gli ultimi articoli</a>
-                <a href="#books" class="btn-writer-secondary">Scopri i libri</a>
+                <a href="#blog" class="btn-writer-primary">Entra nel blog</a>
+                <a href="#books" class="btn-writer-secondary">Scopri le pubblicazioni</a>
             </div>
         </div>
 
@@ -81,34 +80,35 @@
 
     <section id="about" class="writer-section writer-about">
         <div class="writer-about-image">
-            <img src="{{ asset('images/virginia.jpg') }}" alt="Virginia, scrittrice" loading="lazy" decoding="async">
+            <img src="{{ asset('images/virgi.jpg') }}" alt="Virginia, scrittrice" loading="lazy" decoding="async">
         </div>
 
         <div class="writer-about-content">
             <p class="writer-eyebrow">Chi sono</p>
 
-            <h2>Una voce narrativa intima, elegante e personale.</h2>
+            <h2>Scrivo per dare voce a chi cerca le parole.</h2>
 
             <p>
-                Virginia scrive storie che nascono dall’osservazione dei dettagli,
-                dalle emozioni quotidiane e dal desiderio di trasformare pensieri
-                e ricordi in parole capaci di restare.
+                Sono una giovane scrittrice e autrice di raccolte poetiche e testi introspettivi. Ho iniziato a scrivere
+                a undici anni, prima come rifugio personale, poi come strumento per conoscermi, comprendermi e farmi
+                comprendere.
             </p>
 
             <p>
-                Questo spazio nasce come diario creativo: un luogo dove raccogliere
-                racconti, riflessioni, progetti editoriali e frammenti di scrittura.
+                Attraverso la scrittura racconto emozioni, fragilità e percorsi interiori, creando uno spazio sicuro per
+                chi non trova le parole, per chi si sente escluso o per chi continua a cercare un luogo in cui sentirsi
+                a casa.
             </p>
 
             <div class="about-highlights" aria-label="Temi principali della scrittura">
-                <span>Racconti intimi</span>
-                <span>Romanzi contemporanei</span>
-                <span>Appunti dal quotidiano</span>
+                <span>Scrittura espressiva</span>
+                <span>Poesia introspettiva</span>
+                <span>Riflessioni personali</span>
             </div>
 
             <div class="about-signature">
                 <span>Virginia</span>
-                <small>Autrice & storyteller</small>
+                <small>Scrittrice & autrice</small>
             </div>
         </div>
     </section>
@@ -116,7 +116,8 @@
     @if ($featuredBook)
         <section id="book-focus" class="writer-section book-focus">
             <div class="book-focus-cover">
-                <img src="{{ $bookCover($featuredBook) }}" alt="Copertina di {{ $featuredBook->title }}" loading="lazy" decoding="async">
+                <img src="{{ $bookCover($featuredBook) }}" alt="Copertina di {{ $featuredBook->title }}" loading="lazy"
+                    decoding="async">
             </div>
 
             <div class="book-focus-content">
@@ -148,7 +149,8 @@
 
         <div class="writer-modal" id="featured-excerpt-modal" aria-hidden="true">
             <div class="writer-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featured-excerpt-title">
-                <button type="button" class="writer-modal-close" data-modal-close aria-label="Chiudi estratto">×</button>
+                <button type="button" class="writer-modal-close" data-modal-close
+                    aria-label="Chiudi estratto">×</button>
                 <p class="writer-eyebrow">Estratto</p>
                 <h2 id="featured-excerpt-title">{{ $featuredBook->title }}</h2>
                 <p>{{ $featuredBook->excerpt ?: 'Un estratto sarà disponibile prossimamente.' }}</p>
@@ -173,8 +175,7 @@
 
         <div class="book-grid">
             @forelse ($books as $book)
-                <article class="book-card"
-                    style="background-image: url('{{ $bookCover($book) }}')">
+                <article class="book-card" style="background-image: url('{{ $bookCover($book) }}')">
                     <div class="book-overlay"></div>
 
                     <div class="book-content">
@@ -287,10 +288,8 @@
             <div class="blog-filters" aria-label="Filtra articoli per categoria">
                 <a href="{{ route('home') }}#blog" class="{{ $activeCategory ? '' : 'is-active' }}">Tutti</a>
                 @foreach ($categories as $category)
-                    <a
-                        href="{{ route('home', ['category' => $category]) }}#blog"
-                        class="{{ $activeCategory === $category ? 'is-active' : '' }}"
-                    >
+                    <a href="{{ route('home', ['category' => $category]) }}#blog"
+                        class="{{ $activeCategory === $category ? 'is-active' : '' }}">
                         {{ $category }}
                     </a>
                 @endforeach
@@ -334,7 +333,8 @@
             @csrf
             <label for="newsletter-email">Email</label>
             <div>
-                <input id="newsletter-email" type="email" name="email" placeholder="la-tua-email@example.com" value="{{ old('email') }}" required>
+                <input id="newsletter-email" type="email" name="email" placeholder="la-tua-email@example.com"
+                    value="{{ old('email') }}" required>
                 <button type="submit" class="btn-writer-primary">Iscriviti</button>
             </div>
             @if (session('newsletter_status'))
@@ -363,7 +363,7 @@
             @forelse ($testimonials as $testimonial)
                 <article>
                     <p>“{{ $testimonial->quote }}”</p>
-                    <span>{{ $testimonial->author ?? $testimonial->context ?? 'Lettura' }}</span>
+                    <span>{{ $testimonial->author ?? ($testimonial->context ?? 'Lettura') }}</span>
                 </article>
             @empty
                 <article>
@@ -394,11 +394,8 @@
                     e appunti narrativi attraversati da dettagli quotidiani,
                     memoria emotiva e una voce intima.
                 </p>
-                <button
-                    type="button"
-                    class="post-share"
-                    data-copy-text="Virginia è un’autrice e storyteller. Scrive romanzi, racconti e appunti narrativi attraversati da dettagli quotidiani, memoria emotiva e una voce intima."
-                >
+                <button type="button" class="post-share"
+                    data-copy-text="Virginia è un’autrice e storyteller. Scrive romanzi, racconti e appunti narrativi attraversati da dettagli quotidiani, memoria emotiva e una voce intima.">
                     Copia bio
                 </button>
             </article>
@@ -427,7 +424,8 @@
         </p>
 
         <div class="writer-actions">
-            <a href="mailto:email@example.com?subject=Contatto%20dal%20sito%20di%20Virginia" class="btn-writer-primary">
+            <a href="mailto:email@example.com?subject=Contatto%20dal%20sito%20di%20Virginia"
+                class="btn-writer-primary">
                 Scrivimi una mail
             </a>
             <a href="#blog" class="btn-writer-secondary">Leggi prima il blog</a>
