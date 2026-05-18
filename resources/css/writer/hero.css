@@ -1,0 +1,204 @@
+/* HERO */
+.writer-hero {
+    min-height: 94vh;
+    padding: 132px 20px 72px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.writer-hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 28%;
+    background: linear-gradient(to bottom, transparent, var(--writer-bg));
+    z-index: 2;
+    pointer-events: none;
+}
+
+.writer-hero-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    transform: scale(1.02);
+    animation: hero-breathe 18s ease-in-out infinite alternate;
+}
+
+.writer-hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(90deg, rgba(23, 18, 15, 0.78) 0%, rgba(23, 18, 15, 0.52) 42%, rgba(23, 18, 15, 0.18) 100%),
+        linear-gradient(to top, rgba(23, 18, 15, 0.74), rgba(23, 18, 15, 0.1) 58%);
+}
+
+.writer-hero-content {
+    width: min(var(--writer-max), 100%);
+    position: relative;
+    z-index: 3;
+    padding: 0 0 32px;
+}
+
+.writer-kicker-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.writer-kicker-row::before {
+    content: "";
+    width: 44px;
+    height: 1px;
+    background: rgba(255, 253, 248, 0.62);
+}
+
+.writer-eyebrow {
+    margin: 0;
+    text-transform: uppercase;
+    color: var(--writer-gold);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+}
+
+.writer-hero .writer-eyebrow {
+    color: #f4d2b5;
+}
+
+.writer-hero h1 {
+    font-size: 6.8rem;
+    line-height: 0.94;
+    max-width: 900px;
+    margin: 0;
+    color: white;
+    text-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+.writer-hero p:not(.writer-eyebrow) {
+    max-width: 610px;
+    margin: 24px 0 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 1.14rem;
+    line-height: 1.8;
+}
+
+.writer-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+}
+
+.btn-writer-primary,
+.btn-writer-secondary,
+.event-link,
+.writer-read-more,
+.post-back,
+.post-share {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    text-decoration: none;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 800;
+    line-height: 1.16;
+    text-align: center;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease, border-color 0.22s ease;
+}
+
+.btn-writer-primary,
+.btn-writer-secondary {
+    min-height: 48px;
+    padding: 15px 22px;
+    border-radius: var(--writer-radius);
+    min-width: 156px;
+}
+
+.btn-writer-primary {
+    background: var(--writer-accent-dark);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 34px rgba(91, 47, 42, 0.26);
+}
+
+.btn-writer-secondary {
+    background: rgba(255, 253, 248, 0.12);
+    color: white;
+    border: 1px solid rgba(255, 253, 248, 0.38);
+    backdrop-filter: blur(10px);
+}
+
+.writer-section .btn-writer-secondary,
+.book-content .btn-writer-secondary {
+    color: var(--writer-accent-dark);
+    background: rgba(255, 253, 248, 0.86);
+    border-color: rgba(255, 253, 248, 0.48);
+}
+
+.btn-writer-primary:hover,
+.btn-writer-secondary:hover,
+.event-link:hover,
+.writer-read-more:hover,
+.post-back:hover,
+.post-share:hover {
+    transform: translateY(-2px);
+}
+
+.btn-writer-primary:active,
+.btn-writer-secondary:active,
+.event-link:active,
+.post-share:active {
+    transform: translateY(0);
+}
+
+.btn-writer-primary span,
+.btn-writer-secondary span,
+.writer-read-more span,
+.post-back span {
+    transition: transform 0.22s ease;
+}
+
+.btn-writer-primary:hover span,
+.btn-writer-secondary:hover span,
+.writer-read-more:hover span {
+    transform: translateX(3px);
+}
+
+.btn-writer-primary:hover {
+    background: var(--writer-accent);
+    box-shadow: 0 20px 40px rgba(91, 47, 42, 0.3);
+}
+
+.btn-writer-secondary:hover {
+    background: rgba(255, 253, 248, 0.22);
+    border-color: rgba(255, 253, 248, 0.66);
+}
+
+.writer-scroll-cue {
+    position: absolute;
+    right: max(20px, calc((100% - var(--writer-max)) / 2));
+    bottom: 58px;
+    z-index: 4;
+    color: rgba(255, 255, 255, 0.78);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+}

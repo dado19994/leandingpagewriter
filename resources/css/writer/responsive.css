@@ -1,0 +1,738 @@
+@media (max-width: 1120px) {
+    .writer-about {
+        grid-template-columns: minmax(250px, 0.58fr) minmax(0, 1.42fr);
+        gap: 42px;
+    }
+
+    .writer-about-image {
+        max-width: 360px;
+    }
+
+    .writer-about-image img {
+        max-height: 470px;
+    }
+
+    .writer-section h2 {
+        font-size: 3.75rem;
+    }
+
+    .book-focus {
+        grid-template-columns: minmax(180px, 0.34fr) minmax(0, 1fr);
+        gap: 38px;
+    }
+
+    .book-focus-cover {
+        width: min(100%, 240px);
+    }
+
+    .book-page-hero {
+        grid-template-columns: minmax(190px, 0.36fr) minmax(0, 1fr);
+        gap: 42px;
+    }
+
+    .book-page-cover {
+        width: min(100%, 260px);
+    }
+
+    .book-page-intro h1 {
+        font-size: 4.45rem;
+    }
+
+    .writer-contact {
+        padding: 46px;
+    }
+
+    .writer-contact h2 {
+        max-width: 760px;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 980px) {
+    :root {
+        --writer-gutter: 28px;
+    }
+
+    .writer-navbar {
+        gap: 12px;
+        padding: 10px;
+    }
+
+    .writer-logo {
+        font-size: 1.08rem;
+    }
+
+    .writer-nav-links {
+        margin-left: auto;
+        overflow-x: auto;
+        scrollbar-width: none;
+        max-width: 100%;
+        padding-bottom: 1px;
+    }
+
+    .writer-nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .writer-nav-links a {
+        padding: 11px 10px;
+        font-size: 0.86rem;
+    }
+
+    .writer-hero {
+        min-height: 86vh;
+        padding-top: 118px;
+    }
+
+    .writer-hero h1 {
+        max-width: 760px;
+        font-size: 5.4rem;
+    }
+
+    .writer-hero p:not(.writer-eyebrow) {
+        max-width: 560px;
+    }
+
+    .writer-section {
+        padding: 68px 0;
+    }
+
+    .writer-section h2 {
+        max-width: 720px;
+        font-size: 3.35rem;
+    }
+
+    .writer-section-header {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .writer-about {
+        grid-template-columns: minmax(210px, 0.44fr) minmax(0, 1fr);
+        gap: 32px;
+        align-items: start;
+    }
+
+    .writer-about-image {
+        max-width: 300px;
+        justify-self: start;
+    }
+
+    .writer-about-image::before {
+        inset: 12px -12px -12px 12px;
+    }
+
+    .writer-about-image img {
+        aspect-ratio: 4 / 5;
+        max-height: 390px;
+    }
+
+    .book-grid,
+    .writer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about-highlights {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .about-highlights span {
+        min-height: 72px;
+        padding: 14px;
+        font-size: 0.94rem;
+    }
+
+    .book-card {
+        min-height: 480px;
+    }
+
+    .event-card {
+        grid-template-columns: 86px 1fr auto;
+        gap: 18px;
+    }
+
+    .post-hero h1 {
+        font-size: 4.6rem;
+    }
+
+    .featured-excerpt {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-excerpt blockquote {
+        font-size: 1.8rem;
+    }
+
+    .newsletter-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .book-focus {
+        grid-template-columns: minmax(150px, 210px) minmax(0, 1fr);
+        gap: 28px;
+        align-items: center;
+    }
+
+    .book-focus-cover {
+        width: min(100%, 190px);
+        justify-self: start;
+    }
+
+    .book-focus-details {
+        gap: 8px;
+    }
+
+    .book-focus-details span {
+        padding: 9px 10px;
+        font-size: 0.92rem;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .book-page-hero {
+        min-height: auto;
+        grid-template-columns: minmax(170px, 0.34fr) minmax(0, 1fr);
+        gap: 32px;
+        padding-top: 132px;
+    }
+
+    .book-page-cover {
+        width: min(100%, 220px);
+    }
+
+    .book-page-intro h1 {
+        font-size: 3.55rem;
+    }
+
+    .book-page-section {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .press-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .press-card-main {
+        grid-column: 1 / -1;
+    }
+
+    .writer-contact {
+        padding: 38px 34px;
+    }
+
+    .writer-contact h2 {
+        max-width: 650px;
+        font-size: 2.55rem;
+        line-height: 1.08;
+    }
+
+    .writer-contact p {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 820px) {
+    .book-focus {
+        grid-template-columns: minmax(130px, 170px) minmax(0, 1fr);
+        gap: 24px;
+    }
+
+    .book-focus-cover {
+        width: min(100%, 160px);
+    }
+
+    .book-focus .writer-actions {
+        gap: 10px;
+    }
+
+    .book-focus .btn-writer-primary,
+    .book-focus .btn-writer-secondary {
+        min-width: 0;
+        padding-inline: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --writer-gutter: 24px;
+    }
+
+    html {
+        scroll-padding-top: 106px;
+    }
+
+    .writer-navbar {
+        top: 10px;
+        align-items: center;
+        gap: 8px;
+        padding: 9px;
+    }
+
+    .writer-nav-links {
+        flex: 1;
+        justify-content: flex-start;
+        gap: 4px;
+    }
+
+    .writer-nav-links a {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+    }
+
+    .writer-hero {
+        min-height: 88vh;
+        padding: 112px 12px 50px;
+        align-items: flex-end;
+    }
+
+    .writer-hero-overlay {
+        background:
+            linear-gradient(to top, rgba(23, 18, 15, 0.86), rgba(23, 18, 15, 0.22)),
+            linear-gradient(90deg, rgba(23, 18, 15, 0.72), rgba(23, 18, 15, 0.28));
+    }
+
+    .writer-hero h1 {
+        max-width: 560px;
+        font-size: 4rem;
+    }
+
+    .writer-hero p:not(.writer-eyebrow) {
+        max-width: 520px;
+        font-size: 1.02rem;
+        line-height: 1.7;
+    }
+
+    .writer-scroll-cue {
+        display: none;
+    }
+
+    .writer-actions,
+    .writer-contact .writer-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .btn-writer-primary,
+    .btn-writer-secondary {
+        justify-content: center;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .writer-section {
+        padding: 56px 0;
+    }
+
+    .writer-section-header {
+        margin-bottom: 26px;
+    }
+
+    .writer-section h2 {
+        font-size: 2.75rem;
+        line-height: 1.03;
+    }
+
+    .writer-section p {
+        font-size: 1rem;
+        line-height: 1.72;
+    }
+
+    .writer-about {
+        grid-template-columns: 1fr;
+        padding-top: 60px;
+    }
+
+    .writer-about-image {
+        max-width: 320px;
+        margin: 0 auto;
+        justify-self: center;
+    }
+
+    .writer-about-image img {
+        max-height: 420px;
+    }
+
+    .about-highlights {
+        grid-template-columns: 1fr;
+    }
+
+    .book-grid,
+    .writer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-card {
+        min-height: 430px;
+    }
+
+    .event-card {
+        grid-template-columns: 1fr;
+        align-items: start;
+    }
+
+    .event-date {
+        width: 76px;
+        min-height: 76px;
+    }
+
+    .event-link {
+        width: 100%;
+    }
+
+    .writer-contact {
+        padding: 34px 22px;
+    }
+
+    .writer-contact h2 {
+        font-size: 2.15rem;
+    }
+
+    .writer-contact p {
+        font-size: 0.98rem;
+    }
+
+    .writer-featured {
+        padding-top: 56px;
+    }
+
+    .featured-excerpt,
+    .newsletter-section {
+        padding: 28px 20px;
+    }
+
+    .featured-excerpt blockquote {
+        font-size: 1.55rem;
+    }
+
+    .book-focus {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .book-focus-cover {
+        width: min(100%, 190px);
+        justify-self: center;
+    }
+
+    .newsletter-form div,
+    .press-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-form .btn-writer-primary {
+        width: 100%;
+    }
+
+    .post-hero {
+        min-height: auto;
+        padding: 120px 0 42px;
+    }
+
+    .book-page-hero {
+        grid-template-columns: 1fr;
+        padding-top: 120px;
+    }
+
+    .book-page-cover {
+        width: min(100%, 210px);
+        justify-self: center;
+    }
+
+    .book-page-intro h1 {
+        font-size: 3.05rem;
+    }
+
+    .writer-modal-panel {
+        padding: 30px 22px;
+    }
+
+    .writer-modal-panel h2 {
+        font-size: 2.1rem;
+    }
+
+    .post-hero h1 {
+        font-size: 3.45rem;
+        line-height: 1;
+    }
+
+    .post-hero p {
+        font-size: 1.06rem;
+    }
+
+    .post-tools {
+        align-items: stretch;
+    }
+
+    .post-back,
+    .post-share {
+        min-height: 42px;
+    }
+
+    .post-content {
+        padding: 32px 22px;
+        margin-top: 0;
+        font-size: 1.08rem;
+    }
+}
+
+@media (max-width: 560px) {
+    :root {
+        --writer-gutter: 18px;
+    }
+
+    html {
+        scroll-padding-top: 132px;
+    }
+
+    .writer-navbar {
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 8px 10px;
+        gap: 8px;
+    }
+
+    .writer-logo {
+        order: 1;
+    }
+
+    .writer-menu-toggle {
+        display: inline-flex;
+        order: 2;
+        margin-left: auto;
+    }
+
+    .writer-nav-links {
+        order: 3;
+        flex-basis: 100%;
+        display: flex;
+        max-height: 0;
+        opacity: 0;
+        width: 100%;
+        padding-top: 0;
+        padding-bottom: 0;
+        flex-direction: column;
+        align-items: stretch;
+        overflow: hidden;
+        transform: translateY(-6px);
+        transition: max-height 0.28s ease, opacity 0.2s ease, transform 0.28s ease, padding 0.28s ease;
+    }
+
+    .writer-navbar.is-menu-open .writer-nav-links {
+        max-height: 360px;
+        opacity: 1;
+        padding-top: 8px;
+        padding-bottom: 2px;
+        transform: translateY(0);
+    }
+
+    .writer-nav-links a {
+        font-size: 0.8rem;
+        padding: 11px 10px;
+        white-space: normal;
+    }
+
+    .writer-hero {
+        min-height: 86vh;
+        padding-top: 148px;
+    }
+
+    .writer-kicker-row {
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .writer-kicker-row::before {
+        width: 28px;
+    }
+
+    .writer-eyebrow {
+        font-size: 0.69rem;
+        letter-spacing: 0.08em;
+    }
+
+    .writer-hero h1 {
+        font-size: 3.18rem;
+    }
+
+    .writer-actions {
+        margin-top: 24px;
+    }
+
+    .btn-writer-primary,
+    .btn-writer-secondary {
+        min-height: 46px;
+        padding: 14px 16px;
+        text-align: center;
+    }
+
+    .writer-section {
+        padding: 48px 0;
+    }
+
+    .writer-section h2 {
+        font-size: 2.25rem;
+    }
+
+    .writer-about-image::before {
+        inset: 12px -10px -10px 12px;
+    }
+
+    .writer-about-image {
+        max-width: 270px;
+    }
+
+    .writer-about-image img {
+        max-height: 350px;
+    }
+
+    .about-highlights span {
+        min-height: auto;
+        padding: 14px;
+    }
+
+    .book-card {
+        min-height: 390px;
+    }
+
+    .book-content,
+    .writer-card {
+        padding: 20px;
+    }
+
+    .book-content h3 {
+        font-size: 1.65rem;
+    }
+
+    .book-content p {
+        line-height: 1.58;
+    }
+
+    .writer-card {
+        min-height: auto;
+    }
+
+    .event-card {
+        padding: 16px;
+    }
+
+    .event-content h3,
+    .writer-card h3 {
+        font-size: 1.38rem;
+    }
+
+    .writer-contact {
+        margin-bottom: 26px;
+        padding: 28px 18px;
+    }
+
+    .writer-contact h2 {
+        font-size: 1.88rem;
+    }
+
+    .featured-excerpt {
+        padding: 24px 18px;
+    }
+
+    .featured-excerpt blockquote {
+        font-size: 1.34rem;
+        line-height: 1.35;
+    }
+
+    .book-focus-cover {
+        width: min(100%, 170px);
+    }
+
+    .book-focus-details {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .newsletter-section {
+        padding: 24px 18px;
+    }
+
+    .press-card {
+        padding: 20px;
+    }
+
+    .writer-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .post-hero {
+        padding-top: 148px;
+    }
+
+    .book-page-hero {
+        padding-top: 148px;
+    }
+
+    .book-page-cover {
+        width: min(100%, 170px);
+    }
+
+    .book-page-intro h1 {
+        font-size: 2.55rem;
+    }
+
+    .post-tools {
+        gap: 10px;
+    }
+
+    .post-back,
+    .post-share {
+        width: 100%;
+    }
+
+    .post-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .post-content {
+        padding: 26px 18px;
+        line-height: 1.82;
+    }
+
+    .post-content::first-letter {
+        font-size: 3.2rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .writer-logo {
+        font-size: 1rem;
+    }
+
+    .writer-hero h1 {
+        font-size: 2.65rem;
+    }
+
+    .writer-hero p:not(.writer-eyebrow) {
+        font-size: 0.98rem;
+    }
+
+    .writer-section h2 {
+        font-size: 2rem;
+    }
+
+    .book-card {
+        min-height: 360px;
+    }
+
+    .book-badge {
+        font-size: 0.66rem;
+    }
+
+    .post-hero h1 {
+        font-size: 2.35rem;
+    }
+}

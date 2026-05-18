@@ -1,0 +1,67 @@
+/* NEWSLETTER */
+.newsletter-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.7fr);
+    gap: 42px;
+    align-items: center;
+    padding: 54px;
+    border-radius: var(--writer-radius);
+    background: rgba(255, 253, 248, 0.76);
+    border: 1px solid var(--writer-border);
+    box-shadow: var(--writer-shadow-soft);
+}
+
+.newsletter-content h2 {
+    max-width: 700px;
+}
+
+.newsletter-form {
+    display: grid;
+    gap: 12px;
+}
+
+.newsletter-form label {
+    color: var(--writer-accent);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.newsletter-form div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+}
+
+.newsletter-form input {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 15px;
+    border-radius: var(--writer-radius);
+    border: 1px solid var(--writer-border);
+    background: white;
+    color: var(--writer-ink);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.newsletter-form input:focus {
+    outline: 3px solid rgba(189, 138, 69, 0.28);
+    border-color: rgba(143, 75, 62, 0.38);
+}
+
+.newsletter-form small {
+    color: var(--writer-muted);
+}
+
+.form-status {
+    color: var(--writer-olive);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.92rem;
+}
+
+.form-status-error {
+    color: var(--writer-accent);
+}

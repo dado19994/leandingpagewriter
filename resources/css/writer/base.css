@@ -1,0 +1,93 @@
+:root {
+    --writer-bg: #f7f1e8;
+    --writer-paper: #fffdf8;
+    --writer-paper-soft: #fbf6ef;
+    --writer-ink: #261f1a;
+    --writer-muted: #6f6259;
+    --writer-faint: #9b8d82;
+    --writer-accent: #8f4b3e;
+    --writer-accent-dark: #5b2f2a;
+    --writer-accent-soft: #f1d6ca;
+    --writer-olive: #59644a;
+    --writer-olive-soft: #e4e8d9;
+    --writer-gold: #bd8a45;
+    --writer-border: rgba(38, 31, 26, 0.12);
+    --writer-border-strong: rgba(38, 31, 26, 0.2);
+    --writer-shadow: 0 24px 70px rgba(48, 34, 25, 0.13);
+    --writer-shadow-soft: 0 14px 36px rgba(48, 34, 25, 0.09);
+    --writer-radius: 8px;
+    --writer-max: 1120px;
+    --writer-gutter: 32px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 112px;
+}
+
+body {
+    margin: 0;
+    background:
+        linear-gradient(90deg, rgba(38, 31, 26, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(38, 31, 26, 0.025) 1px, transparent 1px),
+        linear-gradient(135deg, #fbf7ef 0%, var(--writer-bg) 46%, #efe5d9 100%);
+    background-size: 44px 44px, 44px 44px, auto;
+    color: var(--writer-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    text-rendering: optimizeLegibility;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+a,
+button,
+span,
+small {
+    overflow-wrap: break-word;
+}
+
+body::selection {
+    background: var(--writer-accent-soft);
+    color: var(--writer-ink);
+}
+
+body.has-open-modal {
+    overflow: hidden;
+}
+
+img {
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+input {
+    min-width: 0;
+}
+
+a,
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid rgba(189, 138, 69, 0.44);
+    outline-offset: 4px;
+}
+
+main {
+    overflow: hidden;
+}

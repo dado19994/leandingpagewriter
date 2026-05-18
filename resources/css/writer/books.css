@@ -1,0 +1,191 @@
+/* BOOKS */
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.book-card {
+    min-height: 520px;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--writer-radius);
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--writer-border);
+    box-shadow: var(--writer-shadow-soft);
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.book-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 253, 248, 0.2);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.book-card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--writer-shadow);
+}
+
+.book-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to top, rgba(23, 18, 15, 0.95), rgba(23, 18, 15, 0.58) 52%, rgba(23, 18, 15, 0.08));
+    z-index: 1;
+}
+
+.book-content {
+    position: relative;
+    z-index: 2;
+    padding: 24px;
+    color: white;
+}
+
+.book-content h3 {
+    font-size: 2rem;
+    line-height: 1;
+    margin: 18px 0 12px;
+}
+
+.book-content p {
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.68;
+}
+
+.book-badge {
+    display: inline-flex;
+    padding: 8px 10px;
+    border-radius: var(--writer-radius);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.book-badge.available {
+    background: rgba(228, 232, 217, 0.22);
+    color: #f6ffe7;
+    border: 1px solid rgba(228, 232, 217, 0.42);
+}
+
+.book-badge.coming {
+    background: rgba(189, 138, 69, 0.3);
+    color: #ffe3b1;
+    border: 1px solid rgba(255, 227, 177, 0.36);
+}
+
+.book-badge.writing {
+    background: rgba(241, 214, 202, 0.2);
+    color: #ffe8df;
+    border: 1px solid rgba(241, 214, 202, 0.36);
+}
+
+
+/* BOOK FOCUS */
+.book-focus {
+    display: grid;
+    grid-template-columns: minmax(200px, 0.42fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+}
+
+.book-focus-cover {
+    width: min(100%, 300px);
+    justify-self: start;
+}
+
+.book-focus-cover img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--writer-radius);
+    border: 1px solid var(--writer-border);
+    box-shadow: var(--writer-shadow);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.book-focus-cover:hover img {
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: 0 28px 78px rgba(48, 34, 25, 0.18);
+}
+
+.book-focus-content h2 {
+    max-width: 720px;
+}
+
+.book-focus-content p {
+    max-width: 680px;
+}
+
+.book-focus-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.book-focus-details span {
+    padding: 10px 12px;
+    border-radius: var(--writer-radius);
+    background: rgba(255, 253, 248, 0.7);
+    border: 1px solid var(--writer-border);
+    color: var(--writer-accent-dark);
+    font-weight: 800;
+}
+
+
+/* BOOK PAGE */
+.book-page-hero {
+    width: min(var(--writer-max), calc(100% - var(--writer-gutter)));
+    min-height: 78vh;
+    margin: 0 auto;
+    padding: 150px 0 72px;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.44fr) minmax(0, 1fr);
+    gap: 52px;
+    align-items: center;
+}
+
+.book-page-cover {
+    width: min(100%, 340px);
+    justify-self: start;
+}
+
+.book-page-cover img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--writer-radius);
+    border: 1px solid var(--writer-border);
+    box-shadow: var(--writer-shadow);
+}
+
+.book-page-intro h1 {
+    margin: 18px 0 20px;
+    font-size: 5.4rem;
+    line-height: 0.94;
+}
+
+.book-page-intro > p:not(.writer-eyebrow) {
+    max-width: 720px;
+    color: var(--writer-muted);
+    font-size: 1.16rem;
+    line-height: 1.78;
+}
+
+.book-page-section {
+    display: grid;
+    grid-template-columns: 0.55fr 1fr;
+    gap: 42px;
+}
