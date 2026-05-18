@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sito Ufficiale | Scrittrice</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close">&times;</span>
+  <img id="lightbox-img">
+</div>
+
+<header>
+  <nav class="navbar">
+    <div class="nav-container">
+
+      <div class="logo">Nome Scrittrice</div>
+
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+
+      <ul class="nav-list" id="navMenu">
+        <li><a href="#about">Chi sono</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#events">Eventi</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#community">Community</a></li>
+
+        <li class="dropdown">
+          <button class="dropdown-toggle">Altro ▾</button>
+          <ul class="dropdown-menu">
+            <li><a href="#pensieri">Pensieri</a></li>
+            <li><a href="#sondaggio">Sondaggio</a></li>
+            <li><a href="#quiz">Quiz</a></li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Parole che diventano emozioni</h1>
+</section>
+<!-- about -->
+<section class="section" id="about">
+  <div class="about-wrapper">
+    <div class="about-content">
+      <h2>Chi sono</h2>
+      <div class="about-box" id="aboutBox">
+        <p>Sono una scrittrice che crede nel potere delle parole condivise.</p>
+      </div>
+    </div>
+    <div class="about-image"></div>
+  </div>
+</section>
+<!-- gallery -->
+<section id="gallery" class="section">
+  <h2>Gallery</h2>
+  <div class="gallery-grid">
+    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba">
+    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66">
+    <img src="https://images.unsplash.com/photo-1524578271613-eb4f3a7c8e03">
+    <img src="https://images.unsplash.com/photo-1516979187457-637abb4f9353">
+    <img src="https://images.unsplash.com/photo-1496104679561-38b3b4d6b36a">
+    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f">
+  </div>
+</section>
+<!-- eventi -->
+<section id="events" class="section">
+  <h2>Eventi & Live</h2>
+  <div class="events-list">
+    <div class="event-item"><span>📅 20 Marzo</span> Live Q&A Instagram</div>
+    <div class="event-item"><span>📅 5 Aprile</span> Presentazione libro</div>
+    <div class="event-item"><span>📅 18 Aprile</span> Incontro lettori</div>
+  </div>
+</section>
+<!-- shop -->
+<section id="shop" class="section">
+  <h2>Shop</h2>
+  <div class="shop-grid">
+    <div class="shop-card">
+      <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794">
+      <h3>Anime di Carta</h3>
+      <button>Acquista</button>
+    </div>
+    <div class="shop-card">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f">
+      <h3>Parole Sospese</h3>
+      <button>Acquista</button>
+    </div>
+  </div>
+</section>
+<!-- recensioni -->
+<section class="section alt" id="reviews">
+  <h2>Recensioni</h2>
+
+  <div class="reviews-wheel" id="reviewsWheel">
+    <!-- JS inserirà le card -->
+  </div>
+</section>
+
+<!-- community -->
+<section id="community" class="section alt">
+  <h2>Community</h2>
+  <form class="newsletter-box" id="newsletterForm">
+    <input type="email" required placeholder="La tua email">
+    <button>Iscriviti</button>
+  </form>
+  <p id="newsletterResult"></p>
+</section>
+<!-- contattami -->
+<section id="contatti" class="section">
+  <h2>Contattami</h2>
+  <form class="contact-form" id="contactForm">
+    <input type="text" placeholder="Nome" required>
+    <input type="email" placeholder="Email" required>
+    <textarea placeholder="Messaggio"></textarea>
+    <button>Invia</button>
+  </form>
+  <p id="contactResult"></p>
+</section>
+
+<footer>© 2025 Nome Scrittrice</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
