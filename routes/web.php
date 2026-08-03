@@ -1,5 +1,7 @@
 <?php
 
+use App\Actions\SaveWithUniqueSlug;
+use App\Actions\StorePublicImage;
 use App\Models\Book;
 use App\Models\Event;
 use App\Models\NewsletterSubscriber;
@@ -8,65 +10,13 @@ use App\Models\Testimonial;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 $requireAdmin = function () {
     return Auth::check() && Auth::user()->is_admin ? null : redirect()->route('admin.login');
-};
-
-$storeUpload = function (Request $request, string $field): ?string {
-    if (! $request->hasFile($field)) {
-        return null;
-    }
-
-    if (! is_dir(public_path('images/uploads'))) {
-        mkdir(public_path('images/uploads'), 0755, true);
-    }
-
-    $file = $request->file($field);
-    $name = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
-    $filename = $name.'-'.Str::random(8).'.webp';
-    $target = public_path('images/uploads/'.$filename);
-
-    try {
-        $image = match ($file->getMimeType()) {
-            'image/jpeg' => imagecreatefromjpeg($file->getRealPath()),
-            'image/png' => imagecreatefrompng($file->getRealPath()),
-            'image/webp' => imagecreatefromwebp($file->getRealPath()),
-            default => null,
-        };
-
-        if ($image) {
-            $width = imagesx($image);
-            $height = imagesy($image);
-            $maxWidth = 1600;
-
-            if ($width > $maxWidth) {
-                $newWidth = $maxWidth;
-                $newHeight = (int) round($height * ($newWidth / $width));
-                $resized = imagecreatetruecolor($newWidth, $newHeight);
-                imagealphablending($resized, false);
-                imagesavealpha($resized, true);
-                imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-                imagedestroy($image);
-                $image = $resized;
-            }
-
-            imagewebp($image, $target, 82);
-            imagedestroy($image);
-
-            return 'images/uploads/'.$filename;
-        }
-    } catch (Throwable) {
-        //
-    }
-
-    $fallback = $name.'-'.Str::random(8).'.'.$file->getClientOriginalExtension();
-    $file->move(public_path('images/uploads'), $fallback);
-
-    return 'images/uploads/'.$fallback;
 };
 
 $parseReviews = function (?string $value): array {
@@ -160,18 +110,32 @@ Route::post('/admin/login', function (Request $request) {
         'password' => ['required', 'string'],
     ]);
 
+    $throttleKey = Str::transliterate(Str::lower((string) $request->string('email'))).'|'.($request->ip() ?? 'unknown');
+
+    if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+        $seconds = RateLimiter::availableIn($throttleKey);
+
+        return back()->withErrors([
+            'email' => "Troppi tentativi. Riprova tra {$seconds} secondi.",
+        ])->onlyInput('email');
+    }
+
     $remember = $request->boolean('remember');
 
     if (! Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']], $remember)) {
+        RateLimiter::hit($throttleKey, 60);
+
         return back()->withErrors(['email' => 'Credenziali non corrette.'])->onlyInput('email');
     }
 
     if (! Auth::user()->is_admin) {
         Auth::logout();
+        RateLimiter::hit($throttleKey, 60);
 
         return back()->withErrors(['email' => 'Questo utente non ha accesso al pannello.'])->onlyInput('email');
     }
 
+    RateLimiter::clear($throttleKey);
     $request->session()->regenerate();
 
     return redirect()->route('admin.dashboard');
@@ -218,14 +182,14 @@ Route::get('/admin/books/create', function () use ($requireAdmin) {
     return view('admin.books.form', ['book' => new Book()]);
 })->name('admin.books.create');
 
-Route::post('/admin/books', function (Request $request) use ($requireAdmin, $parseReviews, $storeUpload) {
+Route::post('/admin/books', function (Request $request, SaveWithUniqueSlug $saveWithUniqueSlug, StorePublicImage $storePublicImage) use ($requireAdmin, $parseReviews) {
     if ($redirect = $requireAdmin()) {
         return $redirect;
     }
 
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:255'],
-        'slug' => ['nullable', 'string', 'max:255', 'unique:books,slug'],
+        'slug' => ['nullable', 'string', 'max:255'],
         'status' => ['required', Rule::in(['available', 'coming', 'writing'])],
         'genre' => ['nullable', 'string', 'max:255'],
         'description' => ['required', 'string'],
@@ -233,20 +197,21 @@ Route::post('/admin/books', function (Request $request) use ($requireAdmin, $par
         'excerpt' => ['nullable', 'string'],
         'reviews_text' => ['nullable', 'string'],
         'cover' => ['nullable', 'string', 'max:255'],
-        'cover_file' => ['nullable', 'image', 'max:4096'],
+        'cover_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         'amazon_url' => ['nullable', 'url', 'max:255'],
         'meta_title' => ['nullable', 'string', 'max:255'],
         'meta_description' => ['nullable', 'string'],
         'is_featured' => ['nullable', 'boolean'],
     ]);
 
-    Book::create([
-        ...collect($validated)->except(['reviews_text', 'cover_file'])->all(),
-        'slug' => $validated['slug'] ?: Str::slug($validated['title']),
+    $saveWithUniqueSlug->handle(new Book, [
+        ...collect($validated)->except(['reviews_text', 'cover_file', 'slug'])->all(),
         'reviews' => $parseReviews($validated['reviews_text'] ?? null),
-        'cover' => $storeUpload($request, 'cover_file') ?: ($validated['cover'] ?? null),
+        'cover' => $request->hasFile('cover_file')
+            ? $storePublicImage->handle($request->file('cover_file'), 'cover_file')
+            : ($validated['cover'] ?? null),
         'is_featured' => $request->boolean('is_featured'),
-    ]);
+    ], ($validated['slug'] ?? null) ?: $validated['title']);
 
     return redirect()->route('admin.books.index')->with('admin_status', 'Libro creato.');
 })->name('admin.books.store');
@@ -259,14 +224,14 @@ Route::get('/admin/books/{book}/edit', function (Book $book) use ($requireAdmin)
     return view('admin.books.form', compact('book'));
 })->name('admin.books.edit');
 
-Route::put('/admin/books/{book}', function (Request $request, Book $book) use ($requireAdmin, $parseReviews, $storeUpload) {
+Route::put('/admin/books/{book}', function (Request $request, SaveWithUniqueSlug $saveWithUniqueSlug, StorePublicImage $storePublicImage, Book $book) use ($requireAdmin, $parseReviews) {
     if ($redirect = $requireAdmin()) {
         return $redirect;
     }
 
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:255'],
-        'slug' => ['nullable', 'string', 'max:255', Rule::unique('books', 'slug')->ignore($book->id)],
+        'slug' => ['nullable', 'string', 'max:255'],
         'status' => ['required', Rule::in(['available', 'coming', 'writing'])],
         'genre' => ['nullable', 'string', 'max:255'],
         'description' => ['required', 'string'],
@@ -274,20 +239,21 @@ Route::put('/admin/books/{book}', function (Request $request, Book $book) use ($
         'excerpt' => ['nullable', 'string'],
         'reviews_text' => ['nullable', 'string'],
         'cover' => ['nullable', 'string', 'max:255'],
-        'cover_file' => ['nullable', 'image', 'max:4096'],
+        'cover_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         'amazon_url' => ['nullable', 'url', 'max:255'],
         'meta_title' => ['nullable', 'string', 'max:255'],
         'meta_description' => ['nullable', 'string'],
         'is_featured' => ['nullable', 'boolean'],
     ]);
 
-    $book->update([
-        ...collect($validated)->except(['reviews_text', 'cover_file'])->all(),
-        'slug' => $validated['slug'] ?: Str::slug($validated['title']),
+    $saveWithUniqueSlug->handle($book, [
+        ...collect($validated)->except(['reviews_text', 'cover_file', 'slug'])->all(),
         'reviews' => $parseReviews($validated['reviews_text'] ?? null),
-        'cover' => $storeUpload($request, 'cover_file') ?: ($validated['cover'] ?? null),
+        'cover' => $request->hasFile('cover_file')
+            ? $storePublicImage->handle($request->file('cover_file'), 'cover_file')
+            : ($validated['cover'] ?? null),
         'is_featured' => $request->boolean('is_featured'),
-    ]);
+    ], ($validated['slug'] ?? null) ?: $validated['title']);
 
     return redirect()->route('admin.books.index')->with('admin_status', 'Libro aggiornato.');
 })->name('admin.books.update');
@@ -317,33 +283,34 @@ Route::get('/admin/posts/create', function () use ($requireAdmin) {
         return $redirect;
     }
 
-    return view('admin.posts.form', ['post' => new Post()]);
+    return view('admin.posts.form', ['post' => new Post]);
 })->name('admin.posts.create');
 
-Route::post('/admin/posts', function (Request $request) use ($requireAdmin, $storeUpload) {
+Route::post('/admin/posts', function (Request $request, SaveWithUniqueSlug $saveWithUniqueSlug, StorePublicImage $storePublicImage) use ($requireAdmin) {
     if ($redirect = $requireAdmin()) {
         return $redirect;
     }
 
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:255'],
-        'slug' => ['nullable', 'string', 'max:255', 'unique:posts,slug'],
+        'slug' => ['nullable', 'string', 'max:255'],
         'category' => ['nullable', 'string', 'max:255'],
         'excerpt' => ['nullable', 'string'],
         'body' => ['nullable', 'string'],
         'image' => ['nullable', 'string', 'max:255'],
-        'image_file' => ['nullable', 'image', 'max:4096'],
+        'image_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         'meta_title' => ['nullable', 'string', 'max:255'],
         'meta_description' => ['nullable', 'string'],
         'is_published' => ['nullable', 'boolean'],
     ]);
 
-    Post::create([
-        ...collect($validated)->except('image_file')->all(),
-        'slug' => $validated['slug'] ?: Str::slug($validated['title']),
-        'image' => $storeUpload($request, 'image_file') ?: ($validated['image'] ?? null),
+    $saveWithUniqueSlug->handle(new Post, [
+        ...collect($validated)->except(['image_file', 'slug'])->all(),
+        'image' => $request->hasFile('image_file')
+            ? $storePublicImage->handle($request->file('image_file'), 'image_file')
+            : ($validated['image'] ?? null),
         'is_published' => $request->boolean('is_published'),
-    ]);
+    ], ($validated['slug'] ?? null) ?: $validated['title']);
 
     return redirect()->route('admin.posts.index')->with('admin_status', 'Articolo creato.');
 })->name('admin.posts.store');
@@ -356,30 +323,31 @@ Route::get('/admin/posts/{post:slug}/edit', function (Post $post) use ($requireA
     return view('admin.posts.form', compact('post'));
 })->name('admin.posts.edit');
 
-Route::put('/admin/posts/{post:slug}', function (Request $request, Post $post) use ($requireAdmin, $storeUpload) {
+Route::put('/admin/posts/{post:slug}', function (Request $request, SaveWithUniqueSlug $saveWithUniqueSlug, StorePublicImage $storePublicImage, Post $post) use ($requireAdmin) {
     if ($redirect = $requireAdmin()) {
         return $redirect;
     }
 
     $validated = $request->validate([
         'title' => ['required', 'string', 'max:255'],
-        'slug' => ['nullable', 'string', 'max:255', Rule::unique('posts', 'slug')->ignore($post->id)],
+        'slug' => ['nullable', 'string', 'max:255'],
         'category' => ['nullable', 'string', 'max:255'],
         'excerpt' => ['nullable', 'string'],
         'body' => ['nullable', 'string'],
         'image' => ['nullable', 'string', 'max:255'],
-        'image_file' => ['nullable', 'image', 'max:4096'],
+        'image_file' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         'meta_title' => ['nullable', 'string', 'max:255'],
         'meta_description' => ['nullable', 'string'],
         'is_published' => ['nullable', 'boolean'],
     ]);
 
-    $post->update([
-        ...collect($validated)->except('image_file')->all(),
-        'slug' => $validated['slug'] ?: Str::slug($validated['title']),
-        'image' => $storeUpload($request, 'image_file') ?: ($validated['image'] ?? null),
+    $saveWithUniqueSlug->handle($post, [
+        ...collect($validated)->except(['image_file', 'slug'])->all(),
+        'image' => $request->hasFile('image_file')
+            ? $storePublicImage->handle($request->file('image_file'), 'image_file')
+            : ($validated['image'] ?? null),
         'is_published' => $request->boolean('is_published'),
-    ]);
+    ], ($validated['slug'] ?? null) ?: $validated['title']);
 
     return redirect()->route('admin.posts.index')->with('admin_status', 'Articolo aggiornato.');
 })->name('admin.posts.update');
