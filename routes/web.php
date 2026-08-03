@@ -7,13 +7,13 @@ use App\Models\Event;
 use App\Models\NewsletterSubscriber;
 use App\Models\Post;
 use App\Models\Testimonial;
-use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 $requireAdmin = function () {
     return Auth::check() && Auth::user()->is_admin ? null : redirect()->route('admin.login');
@@ -35,7 +35,10 @@ $parseReviews = function (?string $value): array {
         ->all();
 };
 
-Route::get('/', function (Request $request) {
+$showHome = function (Request $request, string $locale) {
+    app()->setLocale($locale);
+    Carbon::setLocale($locale);
+
     $category = $request->query('category');
     $postsQuery = Post::where('is_published', true)->latest();
 
@@ -63,23 +66,34 @@ Route::get('/', function (Request $request) {
         'categories' => $categories,
         'activeCategory' => $category,
     ]);
-})->name('home');
+};
+
+Route::get('/', fn (Request $request) => $showHome($request, 'it'))->name('home');
+Route::get('/en', fn (Request $request) => $showHome($request, 'en'))->name('home.en');
 
 Route::get('/robots.txt', function () {
     return response("User-agent: *\nAllow: /\nSitemap: ".route('sitemap')."\n", 200, ['Content-Type' => 'text/plain']);
 })->name('robots');
 
 Route::get('/sitemap.xml', function () {
-    $urls = collect([route('home')])
-        ->merge(Book::all()->map(fn ($book) => route('books.show', $book)))
-        ->merge(Post::where('is_published', true)->get()->map(fn ($post) => route('posts.show', $post->slug)));
+    $urls = collect([route('home'), route('home.en')])
+        ->merge(Book::all()->flatMap(fn ($book) => [
+            route('books.show', $book),
+            route('books.show.en', $book),
+        ]))
+        ->merge(Post::where('is_published', true)->get()->flatMap(fn ($post) => [
+            route('posts.show', $post->slug),
+            route('posts.show.en', $post->slug),
+        ]));
 
     return response()
         ->view('sitemap', ['urls' => $urls])
         ->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
-Route::post('/newsletter', function (Request $request) {
+$storeNewsletter = function (Request $request, string $locale) {
+    app()->setLocale($locale);
+
     $validated = $request->validate([
         'email' => ['required', 'email', 'max:255'],
     ]);
@@ -89,16 +103,35 @@ Route::post('/newsletter', function (Request $request) {
         ['source' => 'website', 'subscribed_at' => now()]
     );
 
-    return back()->with('newsletter_status', 'Iscrizione ricevuta. Grazie per essere qui.');
-})->name('newsletter.store');
+    return back()->with('newsletter_status', __('site.newsletter.received'));
+};
+
+Route::post('/newsletter', fn (Request $request) => $storeNewsletter($request, 'it'))->name('newsletter.store');
+Route::post('/en/newsletter', fn (Request $request) => $storeNewsletter($request, 'en'))->name('newsletter.store.en');
 
 Route::get('/libri/{book}', function (Book $book) {
+    app()->setLocale('it');
+
     return view('pages.book-show', compact('book'));
 })->name('books.show');
 
+Route::get('/en/books/{book}', function (Book $book) {
+    app()->setLocale('en');
+
+    return view('pages.book-show', compact('book'));
+})->name('books.show.en');
+
 Route::get('/blog/{post:slug}', function (Post $post) {
+    app()->setLocale('it');
+
     return view('pages.post-show', compact('post'));
 })->name('posts.show');
+
+Route::get('/en/blog/{post:slug}', function (Post $post) {
+    app()->setLocale('en');
+
+    return view('pages.post-show', compact('post'));
+})->name('posts.show.en');
 
 Route::get('/admin/login', function () {
     return view('admin.login');

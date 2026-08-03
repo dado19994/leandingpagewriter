@@ -184,6 +184,21 @@
     box-shadow: 0 20px 40px rgba(91, 47, 42, 0.3);
 }
 
+:root[data-theme="dark"] .btn-writer-primary {
+    background: #7d4037;
+    color: #fffaf4;
+}
+
+:root[data-theme="dark"] .btn-writer-primary:hover {
+    background: #9a5145;
+}
+
+:root[data-theme="dark"] .writer-section .btn-writer-secondary,
+:root[data-theme="dark"] .book-content .btn-writer-secondary {
+    background: color-mix(in srgb, var(--writer-paper) 88%, transparent);
+    border-color: var(--writer-border);
+}
+
 .btn-writer-secondary:hover {
     background: rgba(255, 253, 248, 0.22);
     border-color: rgba(255, 253, 248, 0.66);

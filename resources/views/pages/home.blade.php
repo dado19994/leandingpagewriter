@@ -3,112 +3,115 @@
     $bookCover = fn($book) => $book?->cover && file_exists(public_path($book->cover))
         ? asset($book->cover)
         : asset('images/virginia.jpg');
+    $homeRoute = app()->getLocale() === 'en' ? route('home.en') : route('home');
+    $alternateRoute = app()->getLocale() === 'en' ? route('home') : route('home.en');
+    $bookRouteName = app()->getLocale() === 'en' ? 'books.show.en' : 'books.show';
+    $postRouteName = app()->getLocale() === 'en' ? 'posts.show.en' : 'posts.show';
+    $newsletterRouteName = app()->getLocale() === 'en' ? 'newsletter.store.en' : 'newsletter.store';
     $homeSchema = [
         '@context' => 'https://schema.org',
         '@graph' => [
             [
                 '@type' => 'Person',
                 'name' => 'Virginia',
-                'jobTitle' => 'Autrice e storyteller',
-                'url' => route('home'),
+                'jobTitle' => app()->getLocale() === 'en' ? 'Author and storyteller' : 'Autrice e storyteller',
+                'url' => $homeRoute,
                 'image' => asset('images/virginia.jpg'),
             ],
             [
                 '@type' => 'WebSite',
-                'name' => 'Virginia | Blog & Scrittura',
-                'url' => route('home'),
+                'name' => __('site.meta.title'),
+                'url' => $homeRoute,
             ],
         ],
     ];
 @endphp
 
-<x-layout title="Virginia | Blog & Scrittura"
-    description="Romanzi, racconti, eventi e appunti di scrittura di Virginia. Uno spazio editoriale intimo per lettrici, lettori e collaborazioni."
+<x-layout title="{{ __('site.meta.title') }}"
+    description="{{ __('site.meta.description') }}"
+    :canonical="$homeRoute"
+    :alternate="$alternateRoute"
     :schema="$homeSchema">
 
     <section class="writer-hero">
-        <img src="{{ asset('images/virginia.jpg') }}" alt="Virginia scrittrice" class="writer-hero-bg-img">
+        <img src="{{ asset('images/virginia.jpg') }}" alt="{{ __('site.content.image_author') }}" class="writer-hero-bg-img">
 
         <div class="writer-hero-overlay"></div>
 
         <div class="writer-hero-content">
             <div class="writer-kicker-row">
-                <p class="writer-eyebrow">POESIA • RIFLESSIONI • STORIE VERE</p>
+                <p class="writer-eyebrow">{{ __('site.hero.eyebrow') }}</p>
             </div>
 
-            <h1>Scrivo per chi
-                non riesce
-                a dirlo ad alta voce.</h1>
+            <h1>{!! nl2br(e(__('site.hero.title'))) !!}</h1>
 
             <p>
-                Racconti, pensieri e frammenti di vita trasformati in parole per chi sente troppo e parla poco.
+                {{ __('site.hero.body') }}
             </p>
 
             <div class="writer-actions">
-                <a href="#blog" class="btn-writer-primary">Entra nel blog</a>
-                <a href="#books" class="btn-writer-secondary">Scopri le pubblicazioni</a>
+                <a href="#blog" class="btn-writer-primary">{{ __('site.hero.blog') }}</a>
+                <a href="#books" class="btn-writer-secondary">{{ __('site.hero.books') }}</a>
             </div>
         </div>
 
-        <span class="writer-scroll-cue">Scorri</span>
+        <span class="writer-scroll-cue">{{ __('site.hero.scroll') }}</span>
     </section>
+
+    @if (app()->getLocale() === 'en')
+        <aside class="writer-section" role="note">{{ __('site.content.fallback_notice') }}</aside>
+    @endif
 
     <section id="featured" class="writer-section writer-featured">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">In evidenza</p>
-                <h2>Un frammento da leggere prima di entrare.</h2>
+                <p class="writer-eyebrow">{{ __('site.featured.eyebrow') }}</p>
+                <h2>{{ __('site.featured.title') }}</h2>
             </div>
             <p>
-                Un assaggio del tono narrativo: poche righe per avvicinarsi
-                al ritmo, all’atmosfera e allo sguardo dell’autrice.
+                {{ __('site.featured.body') }}
             </p>
         </div>
 
         <div class="featured-excerpt">
             <blockquote>
-                “Ci sono parole che arrivano piano, come una luce rimasta accesa
-                in fondo a una stanza. Non chiedono attenzione: la meritano.”
+                {{ __('site.featured.quote') }}
             </blockquote>
 
             <div class="featured-excerpt-meta">
-                <span>Estratto breve</span>
-                <a href="#blog" class="writer-read-more">Leggi altri testi <span aria-hidden="true">→</span></a>
+                <span>{{ __('site.featured.label') }}</span>
+                <a href="#blog" class="writer-read-more">{{ __('site.featured.link') }} <span aria-hidden="true">→</span></a>
             </div>
         </div>
     </section>
 
     <section id="about" class="writer-section writer-about">
         <div class="writer-about-image">
-            <img src="{{ asset('images/virgi.jpg') }}" alt="Virginia, scrittrice" loading="lazy" decoding="async">
+            <img src="{{ asset('images/virgi.jpg') }}" alt="{{ __('site.content.image_author') }}" loading="lazy" decoding="async">
         </div>
 
         <div class="writer-about-content">
-            <p class="writer-eyebrow">Chi sono</p>
+            <p class="writer-eyebrow">{{ __('site.about.eyebrow') }}</p>
 
-            <h2>Scrivo per dare voce a chi cerca le parole.</h2>
+            <h2>{{ __('site.about.title') }}</h2>
 
             <p>
-                Sono una giovane scrittrice e autrice di raccolte poetiche e testi introspettivi. Ho iniziato a scrivere
-                a undici anni, prima come rifugio personale, poi come strumento per conoscermi, comprendermi e farmi
-                comprendere.
+                {{ __('site.about.p1') }}
             </p>
 
             <p>
-                Attraverso la scrittura racconto emozioni, fragilità e percorsi interiori, creando uno spazio sicuro per
-                chi non trova le parole, per chi si sente escluso o per chi continua a cercare un luogo in cui sentirsi
-                a casa.
+                {{ __('site.about.p2') }}
             </p>
 
             <div class="about-highlights" aria-label="Temi principali della scrittura">
-                <span>Scrittura espressiva</span>
-                <span>Poesia introspettiva</span>
-                <span>Riflessioni personali</span>
+                @foreach (__('site.about.tags') as $tag)
+                    <span>{{ $tag }}</span>
+                @endforeach
             </div>
 
             <div class="about-signature">
                 <span>Virginia</span>
-                <small>Scrittrice & autrice</small>
+                <small>{{ __('site.about.role') }}</small>
             </div>
         </div>
     </section>
@@ -116,33 +119,33 @@
     @if ($featuredBook)
         <section id="book-focus" class="writer-section book-focus">
             <div class="book-focus-cover">
-                <img src="{{ $bookCover($featuredBook) }}" alt="Copertina di {{ $featuredBook->title }}" loading="lazy"
+                <img src="{{ $bookCover($featuredBook) }}" alt="{{ __('site.content.image_book', ['title' => $featuredBook->title]) }}" loading="lazy"
                     decoding="async">
             </div>
 
             <div class="book-focus-content">
-                <p class="writer-eyebrow">Libro in primo piano</p>
+                <p class="writer-eyebrow">{{ __('site.books.featured') }}</p>
                 <h2>{{ $featuredBook->title }}</h2>
                 <p>{{ $featuredBook->description }}</p>
 
                 <div class="book-focus-details">
-                    <span>{{ $featuredBook->status === 'available' ? 'Disponibile ora' : 'In aggiornamento' }}</span>
-                    <span>Romanzo contemporaneo</span>
-                    <span>Per lettrici e lettori curiosi</span>
+                    <span>{{ $featuredBook->status === 'available' ? __('site.books.available_now') : __('site.books.updating') }}</span>
+                    <span>{{ __('site.books.genre') }}</span>
+                    <span>{{ __('site.books.audience') }}</span>
                 </div>
 
                 <div class="writer-actions">
                     @if ($featuredBook->amazon_url)
                         <a href="{{ $featuredBook->amazon_url }}" target="_blank" class="btn-writer-primary">
-                            Vai al libro <span aria-hidden="true">↗</span>
+                            {{ __('site.books.open_book') }} <span aria-hidden="true">↗</span>
                         </a>
                     @else
-                        <a href="#newsletter" class="btn-writer-primary">Ricevi aggiornamenti</a>
+                        <a href="#newsletter" class="btn-writer-primary">{{ __('site.books.updates') }}</a>
                     @endif
                     <button type="button" class="btn-writer-secondary" data-modal-open="featured-excerpt-modal">
-                        Leggi estratto
+                        {{ __('site.books.excerpt') }}
                     </button>
-                    <a href="{{ route('books.show', $featuredBook) }}" class="btn-writer-secondary">Scheda libro</a>
+                    <a href="{{ route($bookRouteName, $featuredBook) }}" class="btn-writer-secondary">{{ __('site.books.sheet') }}</a>
                 </div>
             </div>
         </section>
@@ -150,12 +153,12 @@
         <div class="writer-modal" id="featured-excerpt-modal" aria-hidden="true">
             <div class="writer-modal-panel" role="dialog" aria-modal="true" aria-labelledby="featured-excerpt-title">
                 <button type="button" class="writer-modal-close" data-modal-close
-                    aria-label="Chiudi estratto">×</button>
-                <p class="writer-eyebrow">Estratto</p>
+                    aria-label="{{ __('site.books.close_excerpt') }}">×</button>
+                <p class="writer-eyebrow">{{ __('site.books.modal_eyebrow') }}</p>
                 <h2 id="featured-excerpt-title">{{ $featuredBook->title }}</h2>
-                <p>{{ $featuredBook->excerpt ?: 'Un estratto sarà disponibile prossimamente.' }}</p>
+                <p>{{ $featuredBook->excerpt ?: __('site.books.empty_excerpt') }}</p>
                 <div class="writer-actions">
-                    <a href="{{ route('books.show', $featuredBook) }}" class="btn-writer-primary">Apri scheda libro</a>
+                    <a href="{{ route($bookRouteName, $featuredBook) }}" class="btn-writer-primary">{{ __('site.books.sheet') }}</a>
                 </div>
             </div>
         </div>
@@ -164,12 +167,11 @@
     <section id="books" class="writer-section">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">Libri</p>
-                <h2>Romanzi e progetti editoriali</h2>
+                <p class="writer-eyebrow">{{ __('site.books.section_eyebrow') }}</p>
+                <h2>{{ __('site.books.section_title') }}</h2>
             </div>
             <p>
-                Dalle uscite disponibili ai testi ancora in lavorazione:
-                una piccola mappa per seguire l’evoluzione delle storie.
+                {{ __('site.books.section_body') }}
             </p>
         </div>
 
@@ -180,11 +182,11 @@
 
                     <div class="book-content">
                         @if ($book->status === 'available')
-                            <span class="book-badge available">Disponibile su Amazon</span>
+                            <span class="book-badge available">{{ __('site.books.available') }}</span>
                         @elseif ($book->status === 'coming')
-                            <span class="book-badge coming">Prossima uscita</span>
+                            <span class="book-badge coming">{{ __('site.books.coming') }}</span>
                         @else
-                            <span class="book-badge writing">In scrittura</span>
+                            <span class="book-badge writing">{{ __('site.books.writing') }}</span>
                         @endif
 
                         <h3>{{ $book->title }}</h3>
@@ -193,32 +195,31 @@
 
                         @if ($book->amazon_url)
                             <a href="{{ $book->amazon_url }}" target="_blank" class="btn-writer-primary">
-                                Acquista su Amazon <span aria-hidden="true">↗</span>
+                                {{ __('site.books.buy') }} <span aria-hidden="true">↗</span>
                             </a>
                         @else
                             <a href="#contact" class="btn-writer-secondary">
-                                Ricevi aggiornamenti
+                                {{ __('site.books.updates') }}
                             </a>
                         @endif
-                        <a href="{{ route('books.show', $book) }}" class="writer-read-more">
-                            Scheda libro <span aria-hidden="true">→</span>
+                        <a href="{{ route($bookRouteName, $book) }}" class="writer-read-more">
+                            {{ __('site.books.sheet') }} <span aria-hidden="true">→</span>
                         </a>
                     </div>
                 </article>
             @empty
-                <p>Nessun libro disponibile al momento.</p>
+                <p>{{ __('site.books.empty') }}</p>
             @endforelse
         </div>
     </section>
     <section id="events" class="writer-section">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">Calendario</p>
-                <h2>Eventi e appuntamenti</h2>
+                <p class="writer-eyebrow">{{ __('site.events.eyebrow') }}</p>
+                <h2>{{ __('site.events.title') }}</h2>
             </div>
             <p>
-                Presentazioni, firmacopie e momenti dal vivo per incontrare
-                lettrici, lettori e nuove conversazioni.
+                {{ __('site.events.body') }}
             </p>
         </div>
 
@@ -236,21 +237,21 @@
                     </div>
 
                     <div class="event-content">
-                        <span>{{ $event->category ?? 'Evento' }}</span>
+                        <span>{{ $event->category ?? __('site.events.default_category') }}</span>
                         <h3>{{ $event->title }}</h3>
 
                         <p>
                             {{ $event->description }}
                             @if ($event->location)
-                                <br><strong>Luogo:</strong> {{ $event->location }}
+                                <br><strong>{{ __('site.events.location') }}</strong> {{ $event->location }}
                             @endif
                         </p>
                     </div>
 
                     @if ($event->link)
-                        <a href="{{ $event->link }}" target="_blank" class="event-link">Info</a>
+                        <a href="{{ $event->link }}" target="_blank" class="event-link">{{ __('site.events.info') }}</a>
                     @else
-                        <a href="#contact" class="event-link">Chiedi info</a>
+                        <a href="#contact" class="event-link">{{ __('site.events.ask') }}</a>
                     @endif
                 </article>
             @empty
@@ -261,12 +262,12 @@
                     </div>
 
                     <div class="event-content">
-                        <span>Prossimamente</span>
-                        <h3>Nuove date in arrivo</h3>
-                        <p>Il calendario verrà aggiornato con nuovi eventi, presentazioni e incontri.</p>
+                        <span>{{ __('site.events.soon_label') }}</span>
+                        <h3>{{ __('site.events.soon_title') }}</h3>
+                        <p>{{ __('site.events.soon_body') }}</p>
                     </div>
 
-                    <a href="#contact" class="event-link">Stay tuned</a>
+                    <a href="#contact" class="event-link">{{ __('site.events.soon_label') }}</a>
                 </article>
             @endforelse
         </div>
@@ -275,20 +276,19 @@
     <section id="blog" class="writer-section">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">Blog</p>
-                <h2>Ultimi pensieri</h2>
+                <p class="writer-eyebrow">{{ __('site.blog.eyebrow') }}</p>
+                <h2>{{ __('site.blog.title') }}</h2>
             </div>
             <p>
-                Note di scrittura, dietro le quinte dei personaggi e frammenti
-                da leggere con il passo lento di una pagina scelta bene.
+                {{ __('site.blog.body') }}
             </p>
         </div>
 
         @if ($categories->isNotEmpty())
-            <div class="blog-filters" aria-label="Filtra articoli per categoria">
-                <a href="{{ route('home') }}#blog" class="{{ $activeCategory ? '' : 'is-active' }}">Tutti</a>
+            <div class="blog-filters" aria-label="{{ __('site.blog.filters') }}">
+                <a href="{{ $homeRoute }}#blog" class="{{ $activeCategory ? '' : 'is-active' }}">{{ __('site.blog.all') }}</a>
                 @foreach ($categories as $category)
-                    <a href="{{ route('home', ['category' => $category]) }}#blog"
+                    <a href="{{ $homeRoute }}?category={{ urlencode($category) }}#blog"
                         class="{{ $activeCategory === $category ? 'is-active' : '' }}">
                         {{ $category }}
                     </a>
@@ -305,15 +305,15 @@
 
                     <p>{{ $post->excerpt }}</p>
 
-                    <a href="{{ route('posts.show', $post->slug) }}" class="writer-read-more">
-                        Leggi articolo <span aria-hidden="true">→</span>
+                    <a href="{{ route($postRouteName, $post->slug) }}" class="writer-read-more">
+                        {{ __('site.blog.read') }} <span aria-hidden="true">→</span>
                     </a>
                 </article>
             @empty
                 <article class="writer-card">
                     <span>Blog</span>
-                    <h3>Articoli in arrivo</h3>
-                    <p>Presto saranno pubblicati nuovi pensieri, racconti e riflessioni.</p>
+                    <h3>{{ __('site.blog.empty_title') }}</h3>
+                    <p>{{ __('site.blog.empty_body') }}</p>
                 </article>
             @endforelse
         </div>
@@ -321,21 +321,20 @@
 
     <section id="newsletter" class="writer-section newsletter-section">
         <div class="newsletter-content">
-            <p class="writer-eyebrow">Newsletter</p>
-            <h2>Ricevi racconti, nuove uscite e date dal vivo.</h2>
+            <p class="writer-eyebrow">{{ __('site.newsletter.eyebrow') }}</p>
+            <h2>{{ __('site.newsletter.title') }}</h2>
             <p>
-                Una lettera leggera, senza rumore: aggiornamenti sui libri,
-                note di scrittura e qualche estratto in anteprima.
+                {{ __('site.newsletter.body') }}
             </p>
         </div>
 
-        <form class="newsletter-form" action="{{ route('newsletter.store') }}" method="post">
+        <form class="newsletter-form" action="{{ route($newsletterRouteName) }}" method="post">
             @csrf
-            <label for="newsletter-email">Email</label>
+            <label for="newsletter-email">{{ __('site.newsletter.email') }}</label>
             <div>
-                <input id="newsletter-email" type="email" name="email" placeholder="la-tua-email@example.com"
+                <input id="newsletter-email" type="email" name="email" placeholder="{{ __('site.newsletter.placeholder') }}"
                     value="{{ old('email') }}" required>
-                <button type="submit" class="btn-writer-primary">Iscriviti</button>
+                <button type="submit" class="btn-writer-primary">{{ __('site.newsletter.submit') }}</button>
             </div>
             @if (session('newsletter_status'))
                 <strong class="form-status">{{ session('newsletter_status') }}</strong>
@@ -343,19 +342,18 @@
             @error('email')
                 <strong class="form-status form-status-error">{{ $message }}</strong>
             @enderror
-            <small>Niente spam. Solo parole quando hanno qualcosa da dire.</small>
+            <small>{{ __('site.newsletter.small') }}</small>
         </form>
     </section>
 
     <section class="writer-section testimonials-section">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">Recensioni</p>
-                <h2>Parole da chi ha già letto.</h2>
+                <p class="writer-eyebrow">{{ __('site.testimonials.eyebrow') }}</p>
+                <h2>{{ __('site.testimonials.title') }}</h2>
             </div>
             <p>
-                Citazioni brevi, utili a restituire il tono dei testi e la loro
-                accoglienza da parte di lettrici, lettori e prime letture.
+                {{ __('site.testimonials.body') }}
             </p>
         </div>
 
@@ -363,12 +361,12 @@
             @forelse ($testimonials as $testimonial)
                 <article>
                     <p>“{{ $testimonial->quote }}”</p>
-                    <span>{{ $testimonial->author ?? ($testimonial->context ?? 'Lettura') }}</span>
+                    <span>{{ $testimonial->author ?? ($testimonial->context ?? __('site.content.reader')) }}</span>
                 </article>
             @empty
                 <article>
-                    <p>“Una scrittura intima, capace di trasformare i dettagli in memoria.”</p>
-                    <span>Lettura in anteprima</span>
+                    <p>{{ __('site.testimonials.fallback_quote') }}</p>
+                    <span>{{ __('site.testimonials.fallback_author') }}</span>
                 </article>
             @endforelse
         </div>
@@ -377,58 +375,56 @@
     <section id="press" class="writer-section press-section">
         <div class="writer-section-header">
             <div>
-                <p class="writer-eyebrow">Press kit</p>
-                <h2>Materiali essenziali per stampa e collaborazioni.</h2>
+                <p class="writer-eyebrow">{{ __('site.press.eyebrow') }}</p>
+                <h2>{{ __('site.press.title') }}</h2>
             </div>
             <p>
-                Bio breve, contatti e informazioni utili per librerie, festival,
-                redazioni e progetti editoriali.
+                {{ __('site.press.body') }}
             </p>
         </div>
 
         <div class="press-grid">
             <article class="press-card press-card-main">
-                <span>Bio breve</span>
+                <span>{{ __('site.press.bio_label') }}</span>
                 <p>
-                    Virginia è un’autrice e storyteller. Scrive romanzi, racconti
-                    e appunti narrativi attraversati da dettagli quotidiani,
-                    memoria emotiva e una voce intima.
+                    {{ __('site.press.bio') }}
                 </p>
                 <button type="button" class="post-share"
-                    data-copy-text="Virginia è un’autrice e storyteller. Scrive romanzi, racconti e appunti narrativi attraversati da dettagli quotidiani, memoria emotiva e una voce intima.">
-                    Copia bio
+                    data-copy-text="{{ __('site.press.bio') }}"
+                    data-copied-label="{{ __('site.copy.bio_copied') }}"
+                    data-copy-failed-label="{{ __('site.copy.failed') }}">
+                    {{ __('site.press.copy') }}
                 </button>
             </article>
 
             <article class="press-card">
-                <span>Per eventi</span>
-                <h3>Presentazioni e incontri</h3>
-                <p>Disponibile per dialoghi con lettori, firmacopie e appuntamenti in libreria.</p>
+                <span>{{ __('site.press.events_label') }}</span>
+                <h3>{{ __('site.press.events_title') }}</h3>
+                <p>{{ __('site.press.events_body') }}</p>
             </article>
 
             <article class="press-card">
-                <span>Per redazioni</span>
-                <h3>Interviste e materiali</h3>
-                <p>Contatti, immagini e dettagli editoriali possono essere richiesti via mail.</p>
+                <span>{{ __('site.press.press_label') }}</span>
+                <h3>{{ __('site.press.press_title') }}</h3>
+                <p>{{ __('site.press.press_body') }}</p>
             </article>
         </div>
     </section>
 
     <section id="contact" class="writer-section writer-contact">
-        <p class="writer-eyebrow">Contatti</p>
-        <h2>Hai una collaborazione o vuoi leggere qualcosa?</h2>
+        <p class="writer-eyebrow">{{ __('site.contact.eyebrow') }}</p>
+        <h2>{{ __('site.contact.title') }}</h2>
 
         <p>
-            Questo spazio è aperto a lettori, collaborazioni editoriali
-            e progetti creativi legati alla scrittura.
+            {{ __('site.contact.body') }}
         </p>
 
         <div class="writer-actions">
             <a href="mailto:email@example.com?subject=Contatto%20dal%20sito%20di%20Virginia"
                 class="btn-writer-primary">
-                Scrivimi una mail
+                {{ __('site.contact.mail') }}
             </a>
-            <a href="#blog" class="btn-writer-secondary">Leggi prima il blog</a>
+            <a href="#blog" class="btn-writer-secondary">{{ __('site.contact.blog') }}</a>
         </div>
     </section>
 

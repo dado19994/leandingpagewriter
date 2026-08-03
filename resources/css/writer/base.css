@@ -18,6 +18,33 @@
     --writer-radius: 8px;
     --writer-max: 1120px;
     --writer-gutter: 32px;
+    --writer-page-grid-a: rgba(38, 31, 26, 0.035);
+    --writer-page-grid-b: rgba(38, 31, 26, 0.025);
+    --writer-page-gradient: linear-gradient(135deg, #fbf7ef 0%, var(--writer-bg) 46%, #efe5d9 100%);
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+    --writer-bg: #171413;
+    --writer-paper: #211d1a;
+    --writer-paper-soft: #29231f;
+    --writer-ink: #f5ede3;
+    --writer-muted: #c2b4a8;
+    --writer-faint: #928277;
+    --writer-accent: #d99076;
+    --writer-accent-dark: #f0b19e;
+    --writer-accent-soft: #4b2c27;
+    --writer-olive: #c2d0a6;
+    --writer-olive-soft: #2e3828;
+    --writer-gold: #e5b867;
+    --writer-border: rgba(245, 237, 227, 0.14);
+    --writer-border-strong: rgba(245, 237, 227, 0.24);
+    --writer-shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
+    --writer-shadow-soft: 0 14px 36px rgba(0, 0, 0, 0.22);
+    --writer-page-grid-a: rgba(245, 237, 227, 0.045);
+    --writer-page-grid-b: rgba(245, 237, 227, 0.026);
+    --writer-page-gradient: linear-gradient(135deg, #151211 0%, #1d1916 48%, #28201c 100%);
+    color-scheme: dark;
 }
 
 * {
@@ -32,9 +59,9 @@ html {
 body {
     margin: 0;
     background:
-        linear-gradient(90deg, rgba(38, 31, 26, 0.035) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(38, 31, 26, 0.025) 1px, transparent 1px),
-        linear-gradient(135deg, #fbf7ef 0%, var(--writer-bg) 46%, #efe5d9 100%);
+        linear-gradient(90deg, var(--writer-page-grid-a) 1px, transparent 1px),
+        linear-gradient(180deg, var(--writer-page-grid-b) 1px, transparent 1px),
+        var(--writer-page-gradient);
     background-size: 44px 44px, 44px 44px, auto;
     color: var(--writer-ink);
     font-family: Georgia, "Times New Roman", serif;

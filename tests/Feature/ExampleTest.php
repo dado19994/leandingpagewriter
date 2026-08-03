@@ -18,4 +18,12 @@ class ExampleTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test_the_english_homepage_returns_a_successful_response(): void
+    {
+        $response = $this->get('/en');
+
+        $response->assertStatus(200);
+        $response->assertSee('I write for those');
+    }
 }

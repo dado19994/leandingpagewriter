@@ -6,7 +6,7 @@
     align-items: center;
     padding: 54px;
     border-radius: var(--writer-radius);
-    background: rgba(255, 253, 248, 0.76);
+    background: color-mix(in srgb, var(--writer-paper) 76%, transparent);
     border: 1px solid var(--writer-border);
     box-shadow: var(--writer-shadow-soft);
 }
@@ -41,7 +41,7 @@
     padding: 0 15px;
     border-radius: var(--writer-radius);
     border: 1px solid var(--writer-border);
-    background: white;
+    background: var(--writer-paper);
     color: var(--writer-ink);
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;

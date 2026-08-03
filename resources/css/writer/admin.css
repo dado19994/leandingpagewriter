@@ -1,9 +1,9 @@
 /* ADMIN */
 .admin-body {
     background:
-        linear-gradient(90deg, rgba(38, 31, 26, 0.045) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(38, 31, 26, 0.035) 1px, transparent 1px),
-        #f4ece1;
+        linear-gradient(90deg, var(--writer-page-grid-a) 1px, transparent 1px),
+        linear-gradient(180deg, var(--writer-page-grid-b) 1px, transparent 1px),
+        var(--writer-bg);
     background-size: 44px 44px, 44px 44px, auto;
 }
 
@@ -25,7 +25,7 @@
 .admin-table-wrap {
     border-radius: var(--writer-radius);
     border: 1px solid rgba(38, 31, 26, 0.18);
-    background: rgba(255, 253, 248, 0.95);
+    background: color-mix(in srgb, var(--writer-paper) 95%, transparent);
     box-shadow: var(--writer-shadow-soft);
 }
 
@@ -38,7 +38,7 @@
     flex-direction: column;
     gap: 24px;
     background:
-        linear-gradient(180deg, #fffdf8, #f4e6da);
+        linear-gradient(180deg, var(--writer-paper), var(--writer-paper-soft));
 }
 
 .admin-brand {
@@ -79,7 +79,7 @@
     padding: 10px 12px;
     border-radius: var(--writer-radius);
     border: 1px solid rgba(38, 31, 26, 0.14);
-    background: rgba(255, 253, 248, 0.72);
+    background: color-mix(in srgb, var(--writer-paper) 72%, transparent);
     color: var(--writer-accent-dark);
     text-decoration: none;
     cursor: pointer;
@@ -116,7 +116,7 @@
 .admin-main {
     min-width: 0;
     padding: 26px;
-    background: #fffdf8;
+    background: var(--writer-paper);
 }
 
 .admin-login {
@@ -240,7 +240,7 @@
 .admin-panel {
     padding: 22px;
     border-radius: var(--writer-radius);
-    background: white;
+    background: var(--writer-paper);
     border: 1px solid rgba(38, 31, 26, 0.18);
     box-shadow: var(--writer-shadow-soft);
 }
@@ -262,7 +262,7 @@
     color: var(--writer-ink);
     text-decoration: none;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background: white;
+    background: var(--writer-paper);
 }
 
 .admin-card:hover {
@@ -287,7 +287,7 @@
 
 .admin-table-wrap {
     overflow-x: auto;
-    background: white;
+    background: var(--writer-paper);
 }
 
 .admin-table {
@@ -306,14 +306,14 @@
 
 .admin-table th {
     font-size: 0.76rem;
-    background: #f7efe6;
+    background: var(--writer-paper-soft);
 }
 
 .admin-form {
     display: grid;
     gap: 16px;
     padding: 24px;
-    background: white;
+    background: var(--writer-paper);
 }
 
 .admin-form-wide {
@@ -341,7 +341,7 @@
     padding: 11px 12px;
     border-radius: var(--writer-radius);
     border: 1px solid rgba(38, 31, 26, 0.22);
-    background: white;
+    background: var(--writer-paper);
     color: var(--writer-ink);
 }
 
@@ -391,7 +391,7 @@
 .admin-preview {
     padding: 14px;
     border-radius: var(--writer-radius);
-    background: #f7efe6;
+    background: var(--writer-paper-soft);
     border: 1px dashed rgba(38, 31, 26, 0.2);
     color: var(--writer-muted);
     font-weight: 500;
@@ -425,7 +425,7 @@
     min-height: 34px;
     border-radius: var(--writer-radius);
     border: 1px solid rgba(38, 31, 26, 0.18);
-    background: #f7efe6;
+    background: var(--writer-paper-soft);
     color: var(--writer-accent-dark);
     cursor: pointer;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

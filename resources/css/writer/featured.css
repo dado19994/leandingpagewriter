@@ -11,7 +11,7 @@
     padding: 38px;
     border-radius: var(--writer-radius);
     background:
-        linear-gradient(135deg, rgba(255, 253, 248, 0.9), rgba(241, 214, 202, 0.42)),
+        linear-gradient(135deg, color-mix(in srgb, var(--writer-paper) 90%, transparent), color-mix(in srgb, var(--writer-accent-soft) 42%, transparent)),
         var(--writer-paper);
     border: 1px solid var(--writer-border);
     box-shadow: var(--writer-shadow-soft);

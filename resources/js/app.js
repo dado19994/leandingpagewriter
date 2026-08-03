@@ -61,11 +61,11 @@ copyButtons.forEach((button) => {
 
         try {
             await navigator.clipboard.writeText(value);
-            button.textContent = button.dataset.copyText ? 'Bio copiata' : 'Link copiato';
+            button.textContent = button.dataset.copiedLabel;
             button.setAttribute('aria-live', 'polite');
             button.classList.add('is-copied');
         } catch {
-            button.textContent = 'Copia non riuscita';
+            button.textContent = button.dataset.copyFailedLabel;
         }
 
         window.setTimeout(() => {
@@ -78,14 +78,14 @@ copyButtons.forEach((button) => {
 menuToggle?.addEventListener('click', () => {
     const isOpen = navbar.classList.toggle('is-menu-open');
     menuToggle.setAttribute('aria-expanded', String(isOpen));
-    menuToggle.setAttribute('aria-label', isOpen ? 'Chiudi menu' : 'Apri menu');
+    menuToggle.setAttribute('aria-label', isOpen ? menuToggle.dataset.closeLabel : menuToggle.dataset.openLabel);
 });
 
 navLinks.forEach((link) => {
     link.addEventListener('click', () => {
         navbar?.classList.remove('is-menu-open');
         menuToggle?.setAttribute('aria-expanded', 'false');
-        menuToggle?.setAttribute('aria-label', 'Apri menu');
+        menuToggle?.setAttribute('aria-label', menuToggle.dataset.openLabel);
     });
 });
 
@@ -124,9 +124,37 @@ document.addEventListener('keydown', (event) => {
         document.querySelectorAll('.writer-modal.is-open').forEach(closeModal);
         navbar?.classList.remove('is-menu-open');
         menuToggle?.setAttribute('aria-expanded', 'false');
-        menuToggle?.setAttribute('aria-label', 'Apri menu');
+        menuToggle?.setAttribute('aria-label', menuToggle.dataset.openLabel);
     }
 });
+
+const updateThemeControl = (theme) => {
+    document.documentElement.dataset.theme = theme;
+    themeToggle?.setAttribute('aria-pressed', String(theme === 'dark'));
+
+    if (themeToggle) {
+        const nextLabel = theme === 'dark' ? themeToggle.dataset.lightLabel : themeToggle.dataset.darkLabel;
+        themeToggle.setAttribute('aria-label', nextLabel);
+        themeToggle.setAttribute('title', nextLabel);
+    }
+};
+
+const applyTheme = (theme) => {
+    updateThemeControl(theme);
+
+    try {
+        window.localStorage.setItem('writer-theme', theme);
+    } catch {
+        // The selected theme still applies when browser storage is unavailable.
+    }
+};
+
+themeToggle?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+});
+
+updateThemeControl(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
 
 const escapeHtml = (value) => value
     .replace(/&/g, '&amp;')

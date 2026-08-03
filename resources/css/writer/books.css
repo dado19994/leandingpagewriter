@@ -137,7 +137,7 @@
 .book-focus-details span {
     padding: 10px 12px;
     border-radius: var(--writer-radius);
-    background: rgba(255, 253, 248, 0.7);
+    background: color-mix(in srgb, var(--writer-paper) 70%, transparent);
     border: 1px solid var(--writer-border);
     color: var(--writer-accent-dark);
     font-weight: 800;
