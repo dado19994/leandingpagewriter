@@ -8,6 +8,9 @@ const modalCloseButtons = document.querySelectorAll('[data-modal-close]');
 const editorFields = document.querySelectorAll('[data-editor]');
 const confirmForms = document.querySelectorAll('[data-confirm]');
 const flashMessages = document.querySelectorAll('[data-flash]');
+const themeToggle = document.querySelector('[data-theme-toggle]');
+const slugSources = document.querySelectorAll('[data-slug-source]');
+const imagePreviewWraps = document.querySelectorAll('[data-image-preview]');
 
 const updateNavbar = () => {
     if (!navbar) {
@@ -190,6 +193,87 @@ editorFields.forEach((field) => {
 
     field.addEventListener('input', update);
     update();
+});
+
+const slugify = (value) => value
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'contenuto';
+
+slugSources.forEach((source) => {
+    const form = source.closest('form');
+    const target = form?.querySelector('[data-slug-target]');
+    const preview = form?.querySelector('[data-slug-preview]');
+
+    if (!source || !target || !preview) {
+        return;
+    }
+
+    const updatePreview = () => {
+        preview.textContent = slugify(target.value || source.value);
+    };
+
+    source.addEventListener('input', updatePreview);
+    target.addEventListener('input', updatePreview);
+    updatePreview();
+});
+
+imagePreviewWraps.forEach((preview) => {
+    const form = preview.closest('form');
+    const upload = form?.querySelector('[data-image-upload]');
+    const pathField = form?.querySelector('[data-image-path]');
+
+    let objectUrl = null;
+
+    const revokeObjectUrl = () => {
+        if (objectUrl) {
+            URL.revokeObjectURL(objectUrl);
+            objectUrl = null;
+        }
+    };
+
+    const renderImage = (src) => {
+        preview.innerHTML = '';
+
+        if (!src) {
+            const placeholder = document.createElement('span');
+            placeholder.textContent = 'Nessuna immagine selezionata';
+            preview.append(placeholder);
+            return;
+        }
+
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = 'Anteprima immagine';
+        preview.append(image);
+    };
+
+    upload?.addEventListener('change', () => {
+        const file = upload.files?.[0];
+
+        if (!file) {
+            revokeObjectUrl();
+            renderImage(pathField?.value ? `/${pathField.value.replace(/^\/+/, '')}` : '');
+            return;
+        }
+
+        revokeObjectUrl();
+        objectUrl = URL.createObjectURL(file);
+        renderImage(objectUrl);
+    });
+
+    pathField?.addEventListener('input', () => {
+        if (!upload?.files?.length) {
+            revokeObjectUrl();
+            renderImage(pathField.value ? `/${pathField.value.replace(/^\/+/, '')}` : '');
+        }
+    });
+
+    window.addEventListener('beforeunload', revokeObjectUrl, { once: true });
 });
 
 confirmForms.forEach((form) => {

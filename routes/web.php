@@ -179,7 +179,7 @@ Route::get('/admin/books/create', function () use ($requireAdmin) {
         return $redirect;
     }
 
-    return view('admin.books.form', ['book' => new Book()]);
+    return view('admin.books.form', ['book' => new Book]);
 })->name('admin.books.create');
 
 Route::post('/admin/books', function (Request $request, SaveWithUniqueSlug $saveWithUniqueSlug, StorePublicImage $storePublicImage) use ($requireAdmin, $parseReviews) {
@@ -413,7 +413,7 @@ Route::get('/admin/testimonials/create', function () use ($requireAdmin) {
         return $redirect;
     }
 
-    return view('admin.testimonials.form', ['testimonial' => new Testimonial()]);
+    return view('admin.testimonials.form', ['testimonial' => new Testimonial]);
 })->name('admin.testimonials.create');
 
 Route::post('/admin/testimonials', function (Request $request) use ($requireAdmin) {

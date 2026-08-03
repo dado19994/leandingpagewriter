@@ -21,4 +21,9 @@ class Post extends Model
     protected $casts = [
         'is_published' => 'boolean',
     ];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

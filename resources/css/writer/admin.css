@@ -345,6 +345,44 @@
     color: var(--writer-ink);
 }
 
+.admin-field-hint,
+.admin-field-error {
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.admin-field-hint {
+    color: var(--writer-muted);
+    font-weight: 700;
+}
+
+.admin-field-error {
+    color: var(--writer-accent);
+    font-weight: 900;
+}
+
+.admin-image-preview {
+    min-height: 132px;
+    padding: 10px;
+    border-radius: var(--writer-radius);
+    border: 1px dashed var(--writer-border-strong);
+    background: var(--writer-paper-soft);
+    display: grid;
+    place-items: center;
+    color: var(--writer-muted);
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.admin-image-preview img {
+    width: 100%;
+    max-height: 170px;
+    object-fit: cover;
+    border-radius: calc(var(--writer-radius) - 2px);
+}
+
 .admin-form textarea {
     min-height: 120px;
     resize: vertical;

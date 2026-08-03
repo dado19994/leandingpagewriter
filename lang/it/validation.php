@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'required' => 'Il campo :attribute è obbligatorio.',
+    'string' => 'Il campo :attribute deve essere un testo.',
+    'email' => 'Il campo :attribute deve essere un indirizzo email valido.',
+    'url' => 'Il campo :attribute deve essere un URL valido.',
+    'max' => [
+        'string' => 'Il campo :attribute non può superare :max caratteri.',
+        'file' => 'Il file :attribute non può superare :max kilobyte.',
+    ],
+    'image' => 'Il campo :attribute deve essere un’immagine.',
+    'boolean' => 'Il campo :attribute deve essere vero o falso.',
+    'in' => 'Il valore selezionato per :attribute non è valido.',
+    'attributes' => [
+        'title' => 'titolo',
+        'slug' => 'slug',
+        'status' => 'stato',
+        'genre' => 'genere',
+        'description' => 'descrizione',
+        'synopsis' => 'sinossi',
+        'excerpt' => 'estratto',
+        'reviews_text' => 'recensioni',
+        'cover' => 'percorso cover',
+        'cover_file' => 'cover',
+        'amazon_url' => 'URL Amazon',
+        'meta_title' => 'meta title',
+        'meta_description' => 'meta description',
+        'category' => 'categoria',
+        'image' => 'immagine',
+        'image_file' => 'immagine',
+        'body' => 'corpo articolo',
+        'email' => 'email',
+    ],
+];
